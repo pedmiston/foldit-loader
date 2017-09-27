@@ -1,21 +1,24 @@
 package main
 
+import (
+	"flag"
+	"fmt"
+)
+
 func main() {
-	bucket := flag.String("bucket", "foldit", "name of bucket holding data")
-	key := flag.String("key", "", "key for data file to load")
+	var keys chan string
 
-	keys := make(chan string)
+	bucket := flag.String("bucket", "foldit", "Name of bucket holding data.")
+	key := flag.String("key", "", "Key for specific data file to load. Optional.")
 
-	if key != "" {
+	if *key != "" {
+		keys = make(chan string)
 		keys <- *key
 	} else {
-		loadKeys(*bucket, keys)
+		keys = loadKeys(*bucket)
 	}
 
 	for key := range keys {
-		err := Upload(*bucket, key)
-		if err != nil {
-			log.Fatal(err)
-		}
+		fmt.Println(key)
 	}
 }
