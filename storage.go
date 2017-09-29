@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"os"
 
 	minio "github.com/minio/minio-go"
 )
@@ -12,8 +11,8 @@ var client *minio.Client
 func connect() {
 	var err error
 
-	accessKey := os.Getenv("DO_ACCESS_KEY")
-	secretKey := os.Getenv("DO_SECRET_KEY")
+	accessKey := config.DOAccessKey
+	secretKey := config.DOSecretKey
 	if accessKey == "" || secretKey == "" {
 		log.Fatal("Must set DO_ACCESS_KEY and DO_SECRET_KEY environment variables")
 	}
@@ -23,4 +22,8 @@ func connect() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func checkKey(key, bucket string) bool {
+	return true
 }
