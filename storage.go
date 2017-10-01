@@ -41,7 +41,6 @@ func loadKeysFromBucket(bucket string) (chan string, int) {
 		go func(k string) { keys <- k }(object.Key)
 		n++
 	}
-
 	return keys, n
 }
 
@@ -52,7 +51,6 @@ func loadKey(key, bucket string) chan string {
 		os.Exit(1)
 	}
 	keys := make(chan string)
-
 	go func(k string) { keys <- k }(key)
 	return keys
 }
